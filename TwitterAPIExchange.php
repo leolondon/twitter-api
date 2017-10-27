@@ -296,6 +296,14 @@ class TwitterAPIExchange
             CURLOPT_TIMEOUT => 10,
         );
 
+
+        if(isset($curlOptions[CURLOPT_HTTPHEADER])){  
+            $options[CURLOPT_HTTPHEADER] = array_merge(
+                $curlOptions[CURLOPT_HTTPHEADER],
+                $header
+            );
+        }
+
         if (!is_null($postfields))
         {
             $options[CURLOPT_POSTFIELDS] = http_build_query($postfields, '', '&');
