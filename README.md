@@ -96,4 +96,34 @@ echo $twitter->setGetfield($getfield)
     ->performRequest();
 ```
 
+POST with JSON Request Example
+-------------------
+
+Set request header when calling performRequest();
+
+```php
+$url = 'https://api.twitter.com/1.1/direct_messages/events/new.json';
+$postJson = [
+    "event" => [
+        "type" => "message_create",
+        "message_create" => [
+          "target" => [
+            "recipient_id" => "TWITTER_ID"
+          ],
+          "message_data" => [
+            "text" => "Hello World!",
+          ]
+        ]
+    ]
+];
+$requestMethod = 'POST';
+
+$twitter = new TwitterAPIExchange($settings);
+echo $twitter->buildOauth($url, $requestMethod)
+             ->performRequest(true,[
+                CURLOPT_HTTPHEADER => array('Content-Type:application/json'),
+                CURLOPT_POSTFIELDS => json_encode($postJson)
+             ]);
+```
+
 That is it! Really simple, works great with the 1.1 API. Thanks to @lackovic10 and @rivers on SO!
